@@ -1,0 +1,18 @@
+# dsh-auto-workspace bundle：免选文件夹新建工作区。
+#
+# 两行缺一不可：
+#   1. 禁用第一方的 directory-picker 行（它同时挂载 host native 后端与
+#      client native 界面；禁用后本插件的 host 半边提供替代的
+#      `ctx.directoryPicker`，client 半边注册替代的 directory-flow 占位者）。
+#   2. 把 dsh-auto-workspace 本身作为 root 行插入（client 半边经
+#      dsh.client 声明发现，无需单独一行）。
+#
+# 关闭插件：把第 2 行改成 `disabled: true`，并恢复第 1 行为 `disabled: false`
+#（或直接删除第 1 行，回到第一方弹窗行为）。
+- id: directory-picker
+  name: '@deepseek-ai/dsh-host-directory-picker-auto'
+  disabled: true
+
+- insert:
+    - id: auto-workspace
+      name: 'dsh-auto-workspace'

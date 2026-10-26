@@ -1,0 +1,60 @@
+{
+  "name": "dsh-auto-workspace",
+  "version": "1.0.0",
+  "private": false,
+  "type": "module",
+  "description": "DSH plugin: skip the folder-picker dialog when adding workspaces — auto-allocate default-workspace-N folders with a configurable base name, recycle freed numbers, and physically remove folders on workspace delete.",
+  "main": "lib/index.mjs",
+  "exports": {
+    ".": "./lib/index.mjs",
+    "./client": "./lib/client.js",
+    "./package.json": "./package.json",
+    "./cordis.patch.yml": "./cordis.patch.yml"
+  },
+  "files": [
+    "lib/index.mjs",
+    "lib/client.js",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Feiyuwan09/dsh-auto-workspace.git"
+  },
+  "homepage": "https://github.com/Feiyuwan09/dsh-auto-workspace#readme",
+  "bugs": {
+    "url": "https://github.com/Feiyuwan09/dsh-auto-workspace/issues"
+  },
+  "author": "Feiyuwan09",
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-locale",
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-ui-plugin-manager",
+        "@deepseek-ai/dsh-client-ui-settings",
+        "@deepseek-ai/dsh-client-ui-workspace"
+      ],
+      "platform": "web"
+    }
+  },
+  "peerDependencies": {
+    "@deepseek-ai/schemastery": "*"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "license": "MIT",
+  "keywords": [
+    "deepseek-harness",
+    "dsh",
+    "plugin",
+    "workspace",
+    "directory-picker",
+    "auto-workspace"
+  ]
+}
