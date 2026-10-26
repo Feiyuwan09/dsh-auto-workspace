@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": false,
   "type": "module",
-  "description": "DSH 插件：新建分区时跳过目录选择对话框，自动创建 default-workspace-N 分区；分区名前缀可在插件后台自定义，删除分区时连磁盘文件夹一并清理。",
+  "description": "DSH 插件：新建分区时跳过目录选择对话框，自动创建 default-workspace-N 分区；分区名前缀可在插件后台自定义，删除分区时连磁盘文件夹一并清理；支持把旧分区里的会话日志整体移动到另一个分区。",
   "main": "lib/index.mjs",
   "exports": {
     ".": "./lib/index.mjs",
@@ -36,6 +36,8 @@
     },
     "client": {
       "inject": [
+        "@deepseek-ai/dsh-api-workspace-controller",
+        "@deepseek-ai/dsh-client-connection",
         "@deepseek-ai/dsh-client-locale",
         "@deepseek-ai/dsh-client-ui-renderer",
         "@deepseek-ai/dsh-client-ui-plugin-manager",
@@ -46,6 +48,9 @@
     }
   },
   "peerDependencies": {
+    "@deepseek-ai/cordis": "*",
+    "@deepseek-ai/dsh-session-format": "*",
+    "@deepseek-ai/dsh-typert-protocol": "*",
     "@deepseek-ai/schemastery": "*"
   },
   "engines": {
@@ -58,6 +63,7 @@
     "plugin",
     "workspace",
     "directory-picker",
-    "auto-workspace"
+    "auto-workspace",
+    "session-move"
   ]
 }
