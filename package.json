@@ -16,7 +16,10 @@
     "lib/client.js",
     "cordis.patch.yml",
     "README.md",
-    "LICENSE"
+    "LICENSE",
+    "install.bat",
+    "install.ps1",
+    "install.sh"
   ],
   "repository": {
     "type": "git",

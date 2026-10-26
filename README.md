@@ -43,15 +43,49 @@ DSH（DeepSeek Harness）插件：新建工作区时**跳过文件夹选择对�
 
 ## 安装
 
-把本目录放到你的插件目录（通常 `~/.dsh/plugins/dsh-auto-workspace`），然后：
+### 一键安装
 
-1. 在 profile 的 `package.json` 的 `dependencies` 里加入：
+**Windows**（PowerShell / CMD）：
+
+```powershell
+irm https://raw.githubusercontent.com/Feiyuwan09/dsh-auto-workspace/main/install.ps1 | iex
+```
+
+**macOS / Linux**：
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/Feiyuwan09/dsh-auto-workspace/main/install.sh | bash
+```
+
+或克隆仓库后本地运行：
+
+```powershell
+.\install.ps1   # Windows（install.bat 是它的薄包装，双击即可）
+```
+
+```bash
+./install.sh    # macOS / Linux
+```
+
+脚本会完成全部步骤：定位 profile → 备份 package.json → 拷贝插件到
+`~/.dsh/plugins/dsh-auto-workspace` → 注册 dependencies 与 bundles → 运行包管理器
+链接依赖。**只重启 Harness 即可使用。** 修改前会生成
+`package.json.bak-auto-workspace-<时间戳>` 备份，重复运行安全（覆盖更新、跳过重复注册）。
+
+- 多个 profile 时显式指定：`.\install.ps1 desktop` / `.\install.ps1 C:\path\to\profile`
+- 依赖需要 pnpm / corepack / npm 其中之一（按此顺序探测）；macOS / Linux 修改
+  package.json 还依赖 `jq`。
+
+### 手动安装
+
+1. 把本目录放到你的插件目录（通常 `~/.dsh/plugins/dsh-auto-workspace`）
+2. 在 profile 的 `package.json` 的 `dependencies` 里加入：
    ```json
    "dsh-auto-workspace": "file:../../plugins/dsh-auto-workspace"
    ```
-2. 在 profile 的 `dsh.profile.bundles` 里加入 `"dsh-auto-workspace"`
-3. 安装依赖（让 profile 的 `node_modules` 出现该包；DSH 启动时从那里解析插件）
-4. 重启 Harness
+3. 在 profile 的 `dsh.profile.bundles` 里加入 `"dsh-auto-workspace"`
+4. 安装依赖（让 profile 的 `node_modules` 出现该包；DSH 启动时从那里解析插件）
+5. 重启 Harness
 
 > 插件同时带有 `dsh.bundle.patch`（cordis.patch.yml）：它会禁用第一方的
 > `directory-picker` 行并插入本插件。如果 profile 的 `package.json` 未把本插件

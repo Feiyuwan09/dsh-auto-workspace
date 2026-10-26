@@ -1,0 +1,3 @@
+.git\
+copyexclude.txt
+package.json.bak-*
