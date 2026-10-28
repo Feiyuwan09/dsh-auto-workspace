@@ -30,15 +30,32 @@ DSH（DeepSeek Harness）插件：新建工作区时**跳过文件夹选择对�
 - 与 dsh-unrestricted 的设置面板同一套官方机制（settings 命名空间 +
   `loader/volatile-update` 热更新），无需重启 Harness。
 
+## 分区存放位置可自定义（插件后台）
+
+同一张配置卡片里的「分区存放位置（容器目录）」输入框控制**自动分配到哪里**：
+
+- 留空：默认在「文档」目录下的 `deepseek-harness`
+  （`C:\Users\<你>\Documents\deepseek-harness`），与旧行为一致。
+- 填绝对路径（如 `D:\DSH-Workspaces`）：之后新建的分区都分配在这个
+  文件夹之下（`D:\DSH-Workspaces\default-workspace`、`-2`…）。
+- **保存后立即生效**（下一次新建分区就用新位置），持久化到
+  `cordis.patch.yml` 的 `workspaceDir` 键；无需重启 Harness。
+- 只影响**之后**新建的分区：已有的分区留在原处不受影响。删除分区时
+  「连文件夹一起删」的安全网会跟随**当前**容器目录，旧位置的分区
+  不会被误删。
+- 优先级：面板配置 > 环境变量 `DSH_AUTO_WORKSPACE_DIR` > 文档目录默认值。
+- 非绝对路径会被忽略（host 端日志会提示并回退默认链）。
+
 ## 删除分区 = 连磁盘文件夹一起删
 
 官方「删除分区」只移除注册、**保留磁盘文件夹和会话日志**。本插件改变了这一点：
 
 - **删除分区时，其磁盘文件夹（及里面全部文件、会话日志）会被一并永久删除。**
 - 删除确认弹窗已被替换为醒目警告文案（明确写明文件夹会被永久删除、无法恢复）。
-- 安全网：只有容器目录（`<文档>\deepseek-harness`，或 `DSH_AUTO_WORKSPACE_DIR`）
-  之下的 `default-workspace` / `default-workspace-N` 会被删除；你手动注册的其他
-  任意目录（例如桌面上的项目文件夹）删除分区时**永远不会**被触碰。
+- 安全网：只有容器目录（面板配置的位置、`<文档>\deepseek-harness`，
+  或 `DSH_AUTO_WORKSPACE_DIR`）之下的 `default-workspace` / `default-workspace-N`
+  会被删除；你手动注册的其他任意目录（例如桌面上的项目文件夹）删除分区时
+  **永远不会**被触碰。
 - 编号回收因此变得更直接：删除分区后目录也消失，下次新建必然拿回最小空闲编号。
 
 ## 移动旧会话到新分区
@@ -141,8 +158,8 @@ curl -fsSL https://raw.githubusercontent.com/Feiyuwan09/dsh-auto-workspace/main/
 
 | 配置项 | 说明 |
 | --- | --- |
-| 插件管理页 → 配置卡片 | 修改分区目录名前缀（`workspaceName`），保存即热更新并持久化 |
-| `DSH_AUTO_WORKSPACE_DIR` | 环境变量：指定分区容器目录（绝对路径）；不设置时自动探测「文档」目录下的 `deepseek-harness` |
+| 插件管理页 → 配置卡片 | 修改分区目录名前缀（`workspaceName`）与分区存放位置（`workspaceDir`），保存即热更新并持久化 |
+| `DSH_AUTO_WORKSPACE_DIR` | 环境变量：指定分区容器目录（绝对路径）；面板配置优先于它，两者都不设置时用「文档」目录下的 `deepseek-harness` |
 | `DSH_AUTO_WORKSPACE_DISABLED` | 环境变量：设为 `1` 时禁用本插件（host 半边不注册替代服务） |
 
 ## 卸载
